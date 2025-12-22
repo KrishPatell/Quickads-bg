@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Carousel</title>
+    <style>
+        /* ============================================
+           HERO CAROUSEL - Simplified Strip Scroll
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .hero-carousel {
+            background: #FFFFFF;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container for the angled rows - overflow all edges */
+        .carousel-container {
+            position: absolute;
+            top: -50%;
+            left: -25%;
+            right: -25%;
+            bottom: -50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            /* The magic angle: -15.08° */
+            transform: rotate(-15.08deg);
+            -webkit-transform: rotate(-15.08deg);
+            transform-origin: center center;
+            -webkit-transform-origin: center center;
+        }
+
+        /* Each image row */
+        .carousel-row {
+            display: flex;
+            width: fit-content;
+            will-change: transform;
+            /* Initially paused - starts after 2s */
+            animation-play-state: paused;
+            -webkit-animation-play-state: paused;
+        }
+
+        /* Row directions - very slow and smooth */
+        .carousel-row.move-right {
+            animation: slideRight 150s linear infinite;
+            -webkit-animation: slideRight 150s linear infinite;
+        }
+
+        .carousel-row.move-left {
+            animation: slideLeft 150s linear infinite;
+            -webkit-animation: slideLeft 150s linear infinite;
+        }
+
+        /* When animation is active */
+        .carousel-row.animate {
+            animation-play-state: running;
+            -webkit-animation-play-state: running;
+        }
+
+        /* Keyframes for infinite scroll */
+        @keyframes slideRight {
+            0% {
+                transform: translate3d(-50%, 0, 0);
+            }
+            100% {
+                transform: translate3d(0%, 0, 0);
+            }
+        }
+
+        @-webkit-keyframes slideRight {
+            0% {
+                -webkit-transform: translate3d(-50%, 0, 0);
+            }
+            100% {
+                -webkit-transform: translate3d(0%, 0, 0);
+            }
+        }
+
+        @keyframes slideLeft {
+            0% {
+                transform: translate3d(0%, 0, 0);
+            }
+            100% {
+                transform: translate3d(-50%, 0, 0);
+            }
+        }
+
+        @-webkit-keyframes slideLeft {
+            0% {
+                -webkit-transform: translate3d(0%, 0, 0);
+            }
+            100% {
+                -webkit-transform: translate3d(-50%, 0, 0);
+            }
+        }
+
+        /* Strip images - larger to fill and overflow viewport */
+        .carousel-strip {
+            height: 32vh;
+            width: auto;
+            display: block;
+            flex-shrink: 0;
+            object-fit: contain;
+            -webkit-object-fit: contain;
+        }
+
+        /* Soft overlays for depth */
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 25%,
+                rgba(255, 255, 255, 0) 75%,
+                rgba(255, 255, 255, 0.3) 100%
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .carousel-overlay-radial {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 30%,
+                rgba(255, 255, 255, 0.6) 100%
+            );
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        /* ============================================
+           RESPONSIVE STYLES
+           ============================================ */
+
+        @media (max-width: 1200px) {
+            .carousel-strip {
+                height: 30vh;
+            }
+
+            .carousel-container {
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-container {
+                top: -60%;
+                left: -50%;
+                right: -50%;
+                bottom: -60%;
+                gap: 14px;
+            }
+
+            .carousel-strip {
+                height: 28vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-container {
+                top: -70%;
+                left: -60%;
+                right: -60%;
+                bottom: -70%;
+                gap: 12px;
+            }
+
+            .carousel-strip {
+                height: 26vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<section class="hero-carousel">
+    <!-- Carousel Background -->
+    <div class="carousel-container">
+
+        <!-- Row 1: Left to Right (Image 1) -->
+        <div class="carousel-row move-right" data-direction="right">
+            <!-- Duplicate for seamless loop -->
+            <img class="carousel-strip" src="https://d-carts.com/frame%201.webp" alt="Ad Creatives Row 1">
+            <img class="carousel-strip" src="https://d-carts.com/frame%201.webp" alt="Ad Creatives Row 1">
+        </div>
+
+        <!-- Row 2: Right to Left (Image 2) -->
+        <div class="carousel-row move-left" data-direction="left">
+            <img class="carousel-strip" src="https://d-carts.com/frame%202.webp" alt="Ad Creatives Row 2">
+            <img class="carousel-strip" src="https://d-carts.com/frame%202.webp" alt="Ad Creatives Row 2">
+        </div>
+
+        <!-- Row 3: Left to Right (Image 3) -->
+        <div class="carousel-row move-right" data-direction="right">
+            <img class="carousel-strip" src="https://d-carts.com/frame%203.webp" alt="Ad Creatives Row 3">
+            <img class="carousel-strip" src="https://d-carts.com/frame%203.webp" alt="Ad Creatives Row 3">
+        </div>
+
+        <!-- Row 4: Right to Left (Image 4) -->
+        <div class="carousel-row move-left" data-direction="left">
+            <img class="carousel-strip" src="https://d-carts.com/frame%204.webp" alt="Ad Creatives Row 4">
+            <img class="carousel-strip" src="https://d-carts.com/frame%204.webp" alt="Ad Creatives Row 4">
+        </div>
+
+    </div>
+
+    <!-- Overlays for depth effect -->
+    <div class="carousel-overlay"></div>
+    <div class="carousel-overlay-radial"></div>
+</section>
+
+<script>
+    // Start animations after 2 seconds (slow and smooth)
+    (function() {
+        const ANIMATION_DELAY = 2000; // 2 seconds
+
+        function startCarouselAnimations() {
+            const rows = document.querySelectorAll('.carousel-row');
+            rows.forEach(function(row) {
+                row.classList.add('animate');
+            });
+        }
+
+        // Wait for page load, then wait 2 more seconds
+        if (document.readyState === 'complete') {
+            setTimeout(startCarouselAnimations, ANIMATION_DELAY);
+        } else {
+            window.addEventListener('load', function() {
+                setTimeout(startCarouselAnimations, ANIMATION_DELAY);
+            });
+        }
+    })();
+</script>
+
+</body>
+</html>
