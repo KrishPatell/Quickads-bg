@@ -40,8 +40,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: clamp(12px, 20px, 3vh);
-            min-height: 400px;
+            gap: clamp(12px, 17px, 2.5vh);
+            min-height: 340px;
             /* The magic angle: -15.08° */
             transform: rotate(-15.08deg);
             -webkit-transform: rotate(-15.08deg);
@@ -54,7 +54,7 @@
             display: flex;
             width: fit-content;
             will-change: transform;
-            min-height: 80px;
+            min-height: 70px;
             flex-shrink: 0;
             /* Initially paused - starts after 2s */
             animation-play-state: paused;
@@ -117,9 +117,10 @@
 
         /* Strip images - larger to fill and overflow viewport */
         /* clamp() protects against sudden height decreases */
+        /* Desktop reduced by 15% to ensure all 4 cards fit in 100vh */
         .carousel-strip {
-            height: clamp(80px, 32vh, 400px);
-            min-height: 80px;
+            height: clamp(70px, 27vh, 340px);
+            min-height: 70px;
             width: auto;
             display: block;
             flex-shrink: 0;
