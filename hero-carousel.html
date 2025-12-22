@@ -17,12 +17,15 @@
 
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow-x: hidden;
+            /* Prevent scrollbars on the body itself when embedded */
+            overflow: hidden;
+            background-color: #FFFFFF;
         }
 
         .hero-carousel {
             background: #FFFFFF;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100%;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -169,64 +172,56 @@
         @media (max-width: 1200px) {
             .carousel-strip {
                 height: clamp(70px, 30vh, 350px);
-                min-height: 70px;
             }
-
             .carousel-container {
                 gap: clamp(10px, 16px, 2.5vh);
-                min-height: 350px;
-            }
-
-            .carousel-row {
-                min-height: 70px;
             }
         }
 
+        /* Tablet / Intermediate */
         @media (max-width: 768px) {
             .carousel-container {
-                /* Pull the container in and zoom it out so more rows fit
-                   even when the iframe/viewport is only ~400px tall */
-                top: -15%;
-                left: -25%;
-                right: -25%;
-                bottom: -15%;
-                gap: 6px;
-                min-height: 220px;
+                /* Moderate Zoom out */
+                top: -30%;
+                left: -30%;
+                right: -30%;
+                bottom: -30%;
+                gap: 10px;
                 transform: rotate(-15.08deg) scale(0.65);
                 -webkit-transform: rotate(-15.08deg) scale(0.65);
             }
 
             .carousel-strip {
-                /* Smaller strip height on mobile to fit 2–3 rows */
-                height: clamp(42px, 18vh, 220px);
-                min-height: 42px;
-            }
-
-            .carousel-row {
-                min-height: 42px;
+                height: clamp(50px, 20vh, 250px);
             }
         }
 
+        /* Mobile / Iframe Specific (~320-480px width, 400px height) */
         @media (max-width: 480px) {
             .carousel-container {
-                /* On very small devices, zoom out further */
-                top: -10%;
-                left: -20%;
-                right: -20%;
-                bottom: -10%;
-                gap: 4px;
-                min-height: 200px;
-                transform: rotate(-15.08deg) scale(0.55);
-                -webkit-transform: rotate(-15.08deg) scale(0.55);
+                /* 1. Expand bounds significantly (-75%) to cover corners when scaled down.
+                   2. Scale down to 0.45. This "zooms out" enough to fit 3 rows 
+                      visually within a 400px height.
+                */
+                top: -75%;
+                left: -75%;
+                right: -75%;
+                bottom: -75%;
+                
+                /* Gap needs to be larger in CSS pixels because it gets scaled down visually */
+                gap: 20px; 
+
+                transform: rotate(-15.08deg) scale(0.45);
+                -webkit-transform: rotate(-15.08deg) scale(0.45);
             }
 
             .carousel-strip {
-                height: clamp(38px, 16vh, 200px);
-                min-height: 38px;
-            }
-
-            .carousel-row {
-                min-height: 38px;
+                /* We use a large vh (35vh) here because 35vh of 400px = 140px.
+                   140px * 0.45 scale = ~63px visual height.
+                   This size allows roughly 3 rows + gaps to fit in 400px.
+                */
+                height: 35vh;
+                min-height: 120px; /* Prevent them from collapsing too small */
             }
         }
 
@@ -292,19 +287,21 @@
         }
     })();
 
-    // Protect against sudden height decreases
+    // No specialized resize logic needed for mobile as we use aggressive scaling 
+    // and broad container bounds in CSS, but we keep the safety check 
+    // to ensure rows don't collapse if the browser acts oddly.
     (function() {
         let resizeTimer;
-        const container = document.querySelector('.carousel-container');
         const rows = document.querySelectorAll('.carousel-row');
         
         function maintainSpacing() {
             const viewportHeight = window.innerHeight;
-            const minRowHeight = Math.max(50, viewportHeight * 0.15); // At least 15% of viewport or 50px
+            // On mobile iframe (400px), 10% is 40px. 
+            const minRowHeight = Math.max(30, viewportHeight * 0.1); 
             
             rows.forEach(function(row) {
-                const currentHeight = row.offsetHeight;
-                if (currentHeight < minRowHeight) {
+                // Only enforce min-height if CSS failed
+                if (row.offsetHeight < minRowHeight) {
                     row.style.minHeight = minRowHeight + 'px';
                 }
             });
