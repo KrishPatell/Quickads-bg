@@ -216,12 +216,9 @@
             }
 
             .carousel-strip {
-                /* We use a large vh (35vh) here because 35vh of 400px = 140px.
-                   140px * 0.45 scale = ~63px visual height.
-                   This size allows roughly 3 rows + gaps to fit in 400px.
-                */
-                height: 35vh;
-                min-height: 120px; /* Prevent them from collapsing too small */
+                /* Fixed card height on mobile */
+                height: 75px;
+                min-height: 75px;
             }
         }
 
