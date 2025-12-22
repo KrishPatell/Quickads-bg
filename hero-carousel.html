@@ -178,49 +178,49 @@
 
         @media (max-width: 768px) {
             .carousel-container {
-                /* Pull the container closer to the viewport and scale it down
-                   so that more rows are visible at once on mobile */
-                top: -30%;
-                left: -30%;
-                right: -30%;
-                bottom: -30%;
-                gap: clamp(6px, 10px, 1.8vh);
-                min-height: 260px;
-                transform: rotate(-15.08deg) scale(0.8);
-                -webkit-transform: rotate(-15.08deg) scale(0.8);
+                /* Pull the container in and zoom it out so more rows fit
+                   even when the iframe/viewport is only ~400px tall */
+                top: -15%;
+                left: -25%;
+                right: -25%;
+                bottom: -15%;
+                gap: 6px;
+                min-height: 220px;
+                transform: rotate(-15.08deg) scale(0.65);
+                -webkit-transform: rotate(-15.08deg) scale(0.65);
             }
 
             .carousel-strip {
-                /* Slightly smaller strips on mobile */
-                height: clamp(55px, 24vh, 260px);
-                min-height: 55px;
+                /* Smaller strip height on mobile to fit 2–3 rows */
+                height: clamp(42px, 18vh, 220px);
+                min-height: 42px;
             }
 
             .carousel-row {
-                min-height: 55px;
+                min-height: 42px;
             }
         }
 
         @media (max-width: 480px) {
             .carousel-container {
-                /* On very small devices, zoom out a bit more so 2–3 rows fit */
-                top: -25%;
-                left: -25%;
-                right: -25%;
-                bottom: -25%;
-                gap: clamp(4px, 8px, 1.4vh);
-                min-height: 230px;
-                transform: rotate(-15.08deg) scale(0.7);
-                -webkit-transform: rotate(-15.08deg) scale(0.7);
+                /* On very small devices, zoom out further */
+                top: -10%;
+                left: -20%;
+                right: -20%;
+                bottom: -10%;
+                gap: 4px;
+                min-height: 200px;
+                transform: rotate(-15.08deg) scale(0.55);
+                -webkit-transform: rotate(-15.08deg) scale(0.55);
             }
 
             .carousel-strip {
-                height: clamp(50px, 22vh, 230px);
-                min-height: 50px;
+                height: clamp(38px, 16vh, 200px);
+                min-height: 38px;
             }
 
             .carousel-row {
-                min-height: 50px;
+                min-height: 38px;
             }
         }
 
